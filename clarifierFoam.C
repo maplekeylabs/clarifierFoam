@@ -56,6 +56,8 @@ int main(int argc, char *argv[])
     #include "createFields.H"
     #include "createUfIfPresent.H"
 
+    #include "readSettlingProperties.H"
+
     turbulence->validate();
 
     if (!LTS)
@@ -129,6 +131,8 @@ int main(int argc, char *argv[])
                 laminarTransport.correct();
                 turbulence->correct();
             }
+
+            #include "CEqn.H"
         }
 
         runTime.write();
