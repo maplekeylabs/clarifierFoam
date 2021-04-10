@@ -1,4 +1,4 @@
-volScalarField Vs = V0*(exp(-rp*(C-Cmin)) + exp(-rh*(C-Cmin)));
+Vs = V0*(exp(-rp*(C-Cmin)) + exp(-rh*(C-Cmin)));
 Vs.max(VSMALL);
 
 fvScalarMatrix CEqn
@@ -7,7 +7,7 @@ fvScalarMatrix CEqn
     + fvm::div(phi, C)
     ==
     fvm::laplacian(turbulence->nuEff()/ScT, C)
-    - Vs*(fvc::grad(C) & g)
+    - Vs*(fvc::grad(C) & g_dir)
 );
 
 CEqn.relax();

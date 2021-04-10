@@ -14,14 +14,18 @@ IOdictionary settlingProperties
 
 Info<< " Reading settling function parameters" << endl;
 
-vector g
+vector g_dir
 (
-    settlingProperties.subDict("settlingFunction").lookup("g")
+    settlingProperties.subDict("settlingFunction").lookup("g_dir")
 );
 
-scalar V0
+dimensionedScalar V0
 (
-    readScalar(settlingProperties.subDict("settlingFunction").lookup("V0"))
+    dimensionedScalar(
+        "V0",
+	dimLength/dimTime,
+        readScalar(settlingProperties.subDict("settlingFunction").lookup("V0"))
+    )
 );
 
 scalar rp
@@ -34,9 +38,13 @@ scalar rh
     readScalar(settlingProperties.subDict("settlingFunction").lookup("rh"))
 );
 
-scalar Cmin
+dimensionedScalar Cmin
 (
-    readScalar(settlingProperties.subDict("settlingFunction").lookup("Cmin"))
+    dimensionedScalar(
+        "Cmin",
+	dimMass/dimVol,
+        readScalar(settlingProperties.subDict("settlingFunction").lookup("Cmin"))
+     )
 );
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;
