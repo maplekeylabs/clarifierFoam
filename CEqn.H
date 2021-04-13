@@ -24,7 +24,8 @@ surfaceScalarField phis
 fvScalarMatrix CEqn
 (
     fvm::ddt(C)
-    + fvm::div(phi + phis, C)
+    + fvm::div(phi, C)
+    + fvm::div(phis, C)
     ==
     fvm::laplacian(turbulence->nuEff() + (1.0/ScT - 1.0)*turbulence->nut(), C)
 );
