@@ -28,14 +28,22 @@ dimensionedScalar V0
     )
 );
 
-scalar rp
+dimensionedScalar rp
 (
-    readScalar(settlingProperties.subDict("settlingFunction").lookup("rp"))
+    dimensionedScalar(
+        "rp",
+	dimVol/dimMass,
+        readScalar(settlingProperties.subDict("settlingFunction").lookup("rp"))
+    )
 );
 
-scalar rh
+dimensionedScalar rh
 (
-    readScalar(settlingProperties.subDict("settlingFunction").lookup("rh"))
+    dimensionedScalar(
+        "rh",
+	dimVol/dimMass,
+        readScalar(settlingProperties.subDict("settlingFunction").lookup("rh"))
+    )
 );
 
 dimensionedScalar Cmin

@@ -42,18 +42,17 @@ volScalarField C
     mesh
 );
 
-volScalarField Vs
+volVectorField Vs
 (
     IOobject
     (
         "Vs",
         runTime.timeName(),
         mesh,
-        IOobject::NO_READ,
+        IOobject::MUST_READ,
         IOobject::AUTO_WRITE
     ),
-    mesh,
-    dimensionedScalar("Vs", dimLength/dimTime, 0)
+    mesh
 );
 
 #include "createPhi.H"
