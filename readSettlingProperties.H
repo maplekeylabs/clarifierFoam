@@ -12,6 +12,26 @@ IOdictionary settlingProperties
     )
 );
 
+Info<< " Reading sludge model paremters" << endl;
+
+dimensionedScalar rho_r
+(
+    dimensionedScalar(
+        "rho_r",
+	dimMass/dimVol,
+        readScalar(settlingProperties.subDict("sludgeModel").lookup("rho_r"))
+    )
+);
+
+dimensionedScalar rho_p
+(
+    dimensionedScalar(
+        "rho_p",
+        dimMass/dimVol,
+        readScalar(settlingProperties.subDict("sludgeModel").lookup("rho_p"))
+    )
+);
+
 Info<< " Reading settling function parameters" << endl;
 
 vector g_dir
