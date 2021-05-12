@@ -1,0 +1,3 @@
+Bokil/Bokil.C
+
+LIB = $(FOAM_USER_LIBBIN)/sludgeViscosityModels
