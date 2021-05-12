@@ -2,7 +2,7 @@
 C.max(0.0);
 
 // Calculate the settling velocity
-Vs = V0*(exp(-rp*(C-Cmin)) - exp(-rh*(C-Cmin)))*g_dir;
+Vs = V0*(exp(-rh*(C-Cmin)) - exp(-rp*(C-Cmin)))*g_dir;
 
 // Constrain settling velocity to be in gravity direction
 forAll(Vs, celli)
