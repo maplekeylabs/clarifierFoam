@@ -1,6 +1,17 @@
 // Calcualate the sludge density
 
-tmp<volScalarField> rho = rho_r + C*(1.0 - rho_r/rho_p);
+volScalarField rho = rho_r + C*(1.0 - rho_r/rho_p);
+
+// Create gravity vector
+
+dimensionedVector g
+(
+    dimensionedVector(
+        "g",
+        dimAcceleration,
+	g_dir
+    )
+);
 
 // Solve the Momentum equation
 
@@ -11,6 +22,7 @@ tmp<fvVectorMatrix> tUEqn
     fvm::ddt(U) + fvm::div(phi, U)
   + MRF.DDt(U)
   + rho_r/rho*turbulence->divDevSigma(U)
+  - g*(rho - rho_r)/rho
  ==
     fvOptions(U)
 );
