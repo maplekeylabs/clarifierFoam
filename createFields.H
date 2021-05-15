@@ -55,6 +55,20 @@ volVectorField Vs
     mesh
 );
 
+volScalarField rho
+(
+    IOobject
+    (
+        "rho",
+	runTime.timeName(),
+	mesh,
+	IOobject::NO_READ,
+	IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedScalar("rho", dimDensity, scalar(0.0))
+);
+
 #include "createPhi.H"
 
 

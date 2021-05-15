@@ -1,6 +1,6 @@
 // Calcualate the sludge density
 
-volScalarField rho = rho_r + C*(1.0 - rho_r/rho_p);
+rho = rho_r + C*(1.0 - rho_r/rho_p);
 
 // Create gravity vector
 
