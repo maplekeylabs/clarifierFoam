@@ -9,7 +9,7 @@ dimensionedVector g
     dimensionedVector(
         "g",
         dimAcceleration,
-	g_dir
+	9.81*g_dir
     )
 );
 
