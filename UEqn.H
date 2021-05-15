@@ -21,7 +21,7 @@ tmp<fvVectorMatrix> tUEqn
 (
     fvm::ddt(U) + fvm::div(phi, U)
   + MRF.DDt(U)
-  + rho_r/rho*turbulence->divDevSigma(U)
+  + turbulence->divDevSigma(U)
   - g*(rho - rho_r)/rho
  ==
     fvOptions(U)
