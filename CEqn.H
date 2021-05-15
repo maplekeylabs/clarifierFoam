@@ -30,7 +30,7 @@ fvScalarMatrix CEqn
     + fvm::div(phi, C)
     + fvm::div(phis, C)
     ==
-    fvm::laplacian(turbulence->nuEff() + (1.0/ScT - 1.0)*turbulence->nut(), C)
+    fvm::laplacian(turbulence->nut()/ScT, C)
 );
 
 CEqn.relax();
