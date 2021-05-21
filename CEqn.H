@@ -1,5 +1,6 @@
 // Limit the concentration field to be positive
 C.max(0.0);
+C.correctBoundaryConditions();
 
 // Calculate the settling velocity
 Vs = V0*(exp(-rh*(C-Cmin)) - exp(-rp*(C-Cmin)))*g_dir;
