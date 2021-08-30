@@ -12,6 +12,13 @@ IOdictionary settlingProperties
     )
 );
 
+Info<< " Reading solution type" << endl;
+
+bool includeMomentum
+(
+    settlingProperties.lookupOrDefault<Switch>("includeMomentum", true)
+);
+
 Info<< " Reading sludge model paremters" << endl;
 
 dimensionedScalar rho_r
