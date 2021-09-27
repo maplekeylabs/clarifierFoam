@@ -91,10 +91,16 @@ Switch includeScrapers
 
 DynamicList<word, 1, 0> scraperRegions;
 scalar scraperVolume;
+scalar scraperFlow;
 
 if (includeScrapers)
 {
     settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
+
+    scalar scraperHeight
+    (
+        readScalar(settlingProperties.subDict("scrapers").lookup("scraperHeight"))
+    );
 
     scraperVolume = 0.0;
     forAll(scraperRegions, iRegion)
@@ -121,6 +127,9 @@ if (includeScrapers)
     (
         settlingProperties.subDict("scrapers").lookupOrDefault<scalar>("omegaScraper", 0.0)
     );
+
+    scraperFlow = scraperVolume*omegaScraper/2.0/constant::mathematical::pi;
+    Info<< "    Scraper volume flow rate: " << scraperFlow << endl;
 }
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;
