@@ -90,17 +90,17 @@ Switch includeScrapers
 );
 
 DynamicList<word, 1, 0> scraperRegions;
-scalar scraperVolume;
-scalar scraperFlow;
+scalar scraperHeight = 0.0;
+scalar scraperAngle = 0.0;
+scalar scraperVolume = 0.0;
+scalar scraperFlow = 0.0;
 
 if (includeScrapers)
 {
     settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
 
-    scalar scraperHeight
-    (
-        readScalar(settlingProperties.subDict("scrapers").lookup("scraperHeight"))
-    );
+    scraperHeight = readScalar(settlingProperties.subDict("scrapers").lookup("scraperHeight"));
+    scraperAngle = readScalar(settlingProperties.subDict("scrapers").lookup("scraperAngle"));
 
     scraperVolume = 0.0;
     forAll(scraperRegions, iRegion)
