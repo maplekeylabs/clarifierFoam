@@ -42,7 +42,7 @@ if (includeScrapers)
 
         forAll(cells, celli)
         {
-            Vscraper[celli] = vector(1.0, 1.0, 1.0);
+            Vscraper[cells[celli]] = vector(1.0, 1.0, 1.0);
         }
     }
 }
