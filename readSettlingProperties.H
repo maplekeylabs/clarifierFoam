@@ -82,9 +82,10 @@ Switch includeScrapers
     settlingProperties.subDict("scrapers").lookupOrDefault<Switch>("includeScrapers", false)
 );
 
+DynamicList<word, 1, 0> scraperRegions;
+
 if (includeScrapers)
 {
-    DynamicList<word, 1, 0> scraperRegions;
     settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
 
     scalar omegaScraper

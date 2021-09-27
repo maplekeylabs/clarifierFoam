@@ -55,6 +55,20 @@ volVectorField Vs
     mesh
 );
 
+volVectorField Vscraper
+(
+    IOobject
+    (
+        "Vscraper",
+	runTime.timeName(),
+	mesh,
+	IOobject::NO_READ,
+	IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedVector("Vscraper", dimVelocity, vector(0.0, 0.0, 0.0))
+);
+
 volScalarField rho
 (
     IOobject

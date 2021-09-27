@@ -24,6 +24,21 @@ surfaceScalarField phis
     fvc::interpolate(Vs) & mesh.Sf()
 );
 
+// Calculate the scraper flux velocity
+if (includeScrapers)
+{
+    forAll(scraperRegions, iRegion)
+    {
+        const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
+        const labelList& cells = mesh.cellZones()[zoneID];
+
+        forAll(cells, celli)
+        {
+            Vscraper[celli] = vector(1.0, 1.0, 1.0);
+        }
+    }
+}
+
 // Define equation for concentration
 fvScalarMatrix CEqn
 (
