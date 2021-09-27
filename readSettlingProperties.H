@@ -12,7 +12,7 @@ IOdictionary settlingProperties
     )
 );
 
-Info<< " Reading sludge model paremters" << endl;
+Info<< "  Reading sludge model paremters" << endl;
 
 dimensionedScalar rho_r
 (
@@ -32,7 +32,7 @@ dimensionedScalar rho_p
     )
 );
 
-Info<< " Reading settling function parameters" << endl;
+Info<< "  Reading settling function parameters" << endl;
 
 vector g_dir
 (
@@ -74,6 +74,24 @@ dimensionedScalar Cmin
         readScalar(settlingProperties.subDict("settlingFunction").lookup("Cmin"))
      )
 );
+
+Info<< "  Reading scraper information" << endl;
+
+Switch includeScrapers
+(
+    settlingProperties.subDict("scrapers").lookupOrDefault<Switch>("includeScrapers", false)
+);
+
+if (includeScrapers)
+{
+    DynamicList<word, 1, 0> scraperRegions;
+    settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
+
+    scalar omegaScraper
+    (
+        settlingProperties.subDict("scrapers").lookupOrDefault<scalar>("omegaScraper", 0.0)
+    );
+}
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;
 
