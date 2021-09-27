@@ -118,7 +118,7 @@ if (includeScrapers)
 
         forAll(cells, celli)
         {
-            scraperVolume += mesh.V()[celli];
+            scraperVolume += mesh.V()[cells[celli]];
         }
     }
     Info<< "    Scaper region volume: " << scraperVolume << endl;
