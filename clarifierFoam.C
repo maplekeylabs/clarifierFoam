@@ -69,6 +69,15 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
+    
+    if (!includeMomentum)
+    {
+        Info<< "Not solving momentum equation" << endl;
+    }
+    else
+    {
+        Info<< "Solving momentum equation" << endl;
+    }
 
     while (pimple.run(runTime))
     {
@@ -117,21 +126,24 @@ int main(int argc, char *argv[])
                     }
                 }
             }
-
-            #include "UEqn.H"
-
-            // --- Pressure corrector loop
-            while (pimple.correct())
+            if (includeMomentum)
             {
-                #include "pEqn.H"
-            }
+                
+                #include "UEqn.H"
 
-            if (pimple.turbCorr())
-            {
-                laminarTransport.correct();
-                turbulence->correct();
-            }
+                // --- Pressure corrector loop
+                while (pimple.correct())
+                {
+                    #include "pEqn.H"
+                }
 
+                if (pimple.turbCorr())
+                {
+                    laminarTransport.correct();
+                    turbulence->correct();
+                }
+            }
+            
             #include "CEqn.H"
         }
 
