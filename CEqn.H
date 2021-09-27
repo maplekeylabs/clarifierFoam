@@ -30,7 +30,15 @@ if (includeScrapers)
     forAll(scraperRegions, iRegion)
     {
         const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
-        const labelList& cells = mesh.cellZones()[zoneID];
+
+        if (zoneID == -1)
+        {
+            FatalErrorIn("CEqn.H")
+                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
+		<< exit(FatalError);
+        }
+
+	const labelList& cells = mesh.cellZones()[zoneID];
 
         forAll(cells, celli)
         {
