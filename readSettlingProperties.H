@@ -83,10 +83,32 @@ Switch includeScrapers
 );
 
 DynamicList<word, 1, 0> scraperRegions;
+scalar scraperVolume;
 
 if (includeScrapers)
 {
     settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
+
+    scraperVolume = 0.0;
+    forAll(scraperRegions, iRegion)
+    {
+        const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
+
+        if (zoneID == -1)
+        {
+            FatalErrorIn("readSettlingProperties.H")
+                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
+		<< exit(FatalError);
+        }
+
+	const labelList& cells = mesh.cellZones()[zoneID];
+
+        forAll(cells, celli)
+        {
+            scraperVolume += mesh.V()[celli];
+        }
+    }
+    Info<< "    Scaper region volume: " << scraperVolume << endl;
 
     scalar omegaScraper
     (
