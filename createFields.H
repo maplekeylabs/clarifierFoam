@@ -99,9 +99,7 @@ if (includeScrapers)
 
         if (zoneID == -1)
         {
-            FatalErrorIn("createFields.H")
-                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
-                << exit(FatalError);
+            break;
         }
 
         const labelList& cells = mesh.cellZones()[zoneID];
@@ -111,6 +109,7 @@ if (includeScrapers)
             scraperVolume += mesh.V()[cells[celli]];
         }
     }
+    reduce(scraperVolume, sumOp<scalar>());
     Info<< "  Scaper region volume: " << scraperVolume << endl;
 
     // Calculate scraper flow rate
@@ -124,9 +123,7 @@ if (includeScrapers)
 
         if (zoneID == -1)
         {
-            FatalErrorIn("createFields.H")
-                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
-		            << exit(FatalError);
+            break;
         }
 
 	      const labelList& cells = mesh.cellZones()[zoneID];
