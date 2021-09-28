@@ -45,7 +45,7 @@ if (includeScrapers)
             label i = cells[celli];
             vector pos = mesh.C()[i];
             scalar r = Foam::sqrt(Foam::pow(pos[0], 2.0) + Foam::pow(pos[1], 2.0));
-	    scalar scraperMag = Foam::pow(r/Foam::cos(scraperAngle), 2.0);
+	    scalar scraperMag = r/Foam::cos(scraperAngle);
             vector scraperDir(-pos[0]/scraperMag, -pos[1]/scraperMag, -r*Foam::tan(scraperAngle)/scraperMag);
             Vscraper[i] = scraperFlow/2.0/constant::mathematical::pi/r/scraperHeight*scraperDir;
         }
