@@ -92,44 +92,14 @@ Switch includeScrapers
 DynamicList<word, 1, 0> scraperRegions;
 scalar scraperHeight = 0.0;
 scalar scraperAngle = 0.0;
-scalar scraperVolume = 0.0;
-scalar scraperFlow = 0.0;
+scalar omegaScraper = 0.0;
 
 if (includeScrapers)
 {
     settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
-
     scraperHeight = readScalar(settlingProperties.subDict("scrapers").lookup("scraperHeight"));
     scraperAngle = readScalar(settlingProperties.subDict("scrapers").lookup("scraperAngle"));
-
-    scraperVolume = 0.0;
-    forAll(scraperRegions, iRegion)
-    {
-        const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
-
-        if (zoneID == -1)
-        {
-            FatalErrorIn("readSettlingProperties.H")
-                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
-		<< exit(FatalError);
-        }
-
-	const labelList& cells = mesh.cellZones()[zoneID];
-
-        forAll(cells, celli)
-        {
-            scraperVolume += mesh.V()[cells[celli]];
-        }
-    }
-    Info<< "    Scaper region volume: " << scraperVolume << endl;
-
-    scalar omegaScraper
-    (
-        settlingProperties.subDict("scrapers").lookupOrDefault<scalar>("omegaScraper", 0.0)
-    );
-
-    scraperFlow = scraperVolume*omegaScraper/2.0/constant::mathematical::pi;
-    Info<< "    Scraper volume flow rate: " << scraperFlow << endl;
+    omegaScraper = readScalar(settlingProperties.subDict("scrapers").lookup("omegaScraper", 0.0));
 }
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;

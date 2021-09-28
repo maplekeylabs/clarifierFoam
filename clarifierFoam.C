@@ -46,17 +46,15 @@ Description
 
 int main(int argc, char *argv[])
 {
-    #include "postProcess.H"
-
     #include "setRootCaseLists.H"
     #include "createTime.H"
     #include "createDynamicFvMesh.H"
     #include "initContinuityErrs.H"
     #include "createDyMControls.H"
-    #include "createFields.H"
-    #include "createUfIfPresent.H"
-
     #include "readSettlingProperties.H"
+    #include "createFields.H"
+    #include "postProcess.H"
+    #include "createUfIfPresent.H"
 
     turbulence->validate();
 
@@ -69,7 +67,7 @@ int main(int argc, char *argv[])
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
     Info<< "\nStarting time loop\n" << endl;
-    
+
     if (!includeMomentum)
     {
         Info<< "Not solving momentum equation" << endl;
@@ -128,7 +126,7 @@ int main(int argc, char *argv[])
             }
             if (includeMomentum)
             {
-                
+
                 #include "UEqn.H"
 
                 // --- Pressure corrector loop
@@ -143,7 +141,7 @@ int main(int argc, char *argv[])
                     turbulence->correct();
                 }
             }
-            
+
             #include "CEqn.H"
         }
 

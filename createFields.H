@@ -34,14 +34,15 @@ volScalarField C
     IOobject
     (
         "C",
-	runTime.timeName(),
-	mesh,
-	IOobject::MUST_READ,
-	IOobject::AUTO_WRITE
+        runTime.timeName(),
+        mesh,
+        IOobject::MUST_READ,
+        IOobject::AUTO_WRITE
     ),
     mesh
 );
 
+Info<< "Reading field Vs\n" << endl;
 volVectorField Vs
 (
     IOobject
@@ -55,36 +56,101 @@ volVectorField Vs
     mesh
 );
 
-volVectorField Vscraper
-(
-    IOobject
-    (
-        "Vscraper",
-	runTime.timeName(),
-	mesh,
-	IOobject::NO_READ,
-	IOobject::AUTO_WRITE
-    ),
-    mesh,
-    dimensionedVector("Vscraper", dimVelocity, vector(0.0, 0.0, 0.0))
-);
-
+Info<< "Creating field rho\n" << endl;
 volScalarField rho
 (
     IOobject
     (
         "rho",
-	runTime.timeName(),
-	mesh,
-	IOobject::NO_READ,
-	IOobject::AUTO_WRITE
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
     ),
     mesh,
     dimensionedScalar("rho", dimDensity, scalar(0.0))
 );
 
-#include "createPhi.H"
+Info<< "Creating field Vscraper\n" << endl;
+volVectorField Vscraper
+(
+    IOobject
+    (
+        "Vscraper",
+        runTime.timeName(),
+        mesh,
+        IOobject::NO_READ,
+        IOobject::AUTO_WRITE
+    ),
+    mesh,
+    dimensionedVector("Vscraper", dimVelocity, vector(0.0, 0.0, 0.0))
+);
 
+// Calculate the scraper flux parameters
+scalar scraperVolume = 0.0;
+scalar scraperFlow = 0.0;
+
+if (includeScrapers)
+{
+    // Calculate volume of scraper regions
+    forAll(scraperRegions, iRegion)
+    {
+        const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
+
+        if (zoneID == -1)
+        {
+            FatalErrorIn("createFields.H")
+                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
+                << exit(FatalError);
+        }
+
+        const labelList& cells = mesh.cellZones()[zoneID];
+
+        forAll(cells, celli)
+        {
+            scraperVolume += mesh.V()[cells[celli]];
+        }
+    }
+    Info<< "  Scaper region volume: " << scraperVolume << endl;
+
+    // Calculate scraper flow rate
+    scraperFlow = scraperVolume*omegaScraper/2.0/constant::mathematical::pi;
+    Info<< "  Scraper volume flow rate: " << scraperFlow << endl;
+
+    // Calculate the scraper velocity field
+    forAll(scraperRegions, iRegion)
+    {
+        const label zoneID = mesh.cellZones().findZoneID(scraperRegions[iRegion]);
+
+        if (zoneID == -1)
+        {
+            FatalErrorIn("createFields.H")
+                << "Cannot find cellZone " << scraperRegions[iRegion] << endl
+		            << exit(FatalError);
+        }
+
+	      const labelList& cells = mesh.cellZones()[zoneID];
+
+        forAll(cells, celli)
+        {
+            label i = cells[celli];
+            vector pos = mesh.C()[i];
+            scalar r = Foam::sqrt(Foam::pow(pos[0], 2.0) + Foam::pow(pos[1], 2.0));
+	          scalar scraperMag = r/Foam::cos(scraperAngle);
+            vector scraperDir(-pos[0]/scraperMag, -pos[1]/scraperMag, -r*Foam::tan(scraperAngle)/scraperMag);
+            Vscraper[i] = scraperFlow/2.0/constant::mathematical::pi/r/scraperHeight*scraperDir;
+        }
+    }
+}
+
+// Calculate phi field for scraper velocity (phisc)
+surfaceScalarField phisc
+(
+    "phisc",
+    fvc::interpolate(Vscraper) & mesh.Sf()
+);
+
+#include "createPhi.H"
 
 label pRefCell = 0;
 scalar pRefValue = 0.0;
