@@ -52,12 +52,21 @@ if (includeScrapers)
     }
 }
 
+
+// Calculate phi field for scraper velocity (phisc)
+surfaceScalarField phis
+(
+    "phisc",
+    fvc::interpolate(Vscraper) & mesh.Sf()
+);
+
 // Define equation for concentration
 fvScalarMatrix CEqn
 (
     fvm::ddt(C)
     + fvm::div(phi, C)
     + fvm::div(phis, C)
+    + fvm::div(phisc, C)
     ==
     fvm::laplacian(turbulence->nut()/ScT, C)
 );
