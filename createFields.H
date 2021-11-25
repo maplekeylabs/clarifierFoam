@@ -115,7 +115,8 @@ if (includeScrapers)
     // Calculate scraper flow rate
     scraperFlow = scraperVolume*omegaScraper/2.0/constant::mathematical::pi;
     Info<< "  Scraper volume flow rate: " << scraperFlow << endl;
-
+}
+/*
     // Calculate the scraper velocity field
     forAll(scraperRegions, iRegion)
     {
@@ -146,7 +147,7 @@ surfaceScalarField phisc
     "phisc",
     fvc::interpolate(Vscraper) & mesh.Sf()
 );
-
+*/
 #include "createPhi.H"
 
 label pRefCell = 0;
