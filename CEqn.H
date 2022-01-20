@@ -113,7 +113,9 @@ fvScalarMatrix CEqn
     + fvm::div(phisc, C)
     ==
     fvm::laplacian(turbulence->nut()/ScT, C)
+    + fvOptions(C)
 );
 
 CEqn.relax();
+fvOptions.contrain(CEqn);
 CEqn.solve();
