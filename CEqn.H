@@ -117,5 +117,5 @@ fvScalarMatrix CEqn
 );
 
 CEqn.relax();
-fvOptions.contrain(CEqn);
+fvOptions.constrain(CEqn);
 CEqn.solve();
