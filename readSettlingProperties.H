@@ -39,6 +39,10 @@ dimensionedScalar rho_p
     )
 );
 
+// PN edit
+Info<< "  Reading settling function regions - PN did this" << endl;
+settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
+
 Info<< "  Reading settling function parameters" << endl;
 
 vector g_dir
