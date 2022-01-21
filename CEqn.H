@@ -22,11 +22,7 @@ surfaceScalarField phis
 (
     "phis",
     fvc::interpolate(Vs) & mesh.Sf()
-    == fvOptions (Vs)
 );
-
-//constrain Vs
-fvOptions.constrain(phis);
 
 if (includeScrapers)
 {
