@@ -2,6 +2,8 @@
 C.max(0.0);
 C.correctBoundaryConditions();
 
+Vs = V0*(exp(-rh*(C-Cmin)) - exp(-rp*(C-Cmin)))*g_dir;
+
 //PN Adding settling zones
 forAll(settlingRegions, iRegion)
 {
@@ -18,9 +20,7 @@ forAll(settlingRegions, iRegion)
     {
         label i = cells[celli];
         // Calculate the settling velocity
-        Vs[i] = V0*(exp(-rh*(C[i]-Cmin)) - exp(-rp*(C[i]-Cmin)))*g_dir;
-
-        
+        Vs[i] = vector(0,0,0);      
      }
 } //PN End regional settling
 
@@ -81,7 +81,7 @@ if (includeScrapers)
             break;
         }
 
-              const labelList& cells = mesh.cellZones()[zoneID];
+        const labelList& cells = mesh.cellZones()[zoneID];
 
         forAll(cells, celli)
         {
