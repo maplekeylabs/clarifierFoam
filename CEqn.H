@@ -9,7 +9,7 @@ forAll(settlingRegions, iRegion)
 {
     const label zoneID = mesh.cellZones().findZoneID(settlingRegions[iRegion]);
 
-    if (zoneID != -1)
+    if (zoneID == -1)
     {
         break;
     }
