@@ -39,10 +39,6 @@ dimensionedScalar rho_p
     )
 );
 
-// PN edit
-Info<< "  Reading settling function regions - PN did this" << endl;
-settlingProperties.subDict("scrapers").lookup("scraperRegions") >> scraperRegions;
-
 Info<< "  Reading settling function parameters" << endl;
 
 vector g_dir
@@ -94,6 +90,7 @@ Switch includeScrapers
 );
 
 DynamicList<word, 1, 0> scraperRegions;
+DynamicList<word, 1, 0> settlingRegions; //PN changed
 scalar scraperAngle = 0.0;
 scalar omegaScraper = 0.0;
 // Added for sloped sludge_flux zone
@@ -113,6 +110,10 @@ if (includeScrapers)
     RASDiameter = readScalar(settlingProperties.subDict("scrapers").lookup("RASDiameter"));
     clarifierDiameter = readScalar(settlingProperties.subDict("scrapers").lookup("clarifierDiameter"));
 }
+
+// PN edit
+Info<< "  Reading settling function regions - PN did this" << endl;
+settlingProperties.subDict("settling").lookup("settlingRegions") >> settlingRegions;
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;
 
