@@ -18,7 +18,7 @@ forAll(settlingRegions, iRegion)
     {
         label i = cells[celli];
         // Calculate the settling velocity
-        Vs[i] = V0*(exp(-rh*(C-Cmin)) - exp(-rp*(C-Cmin)))*g_dir;
+        Vs[i] = V0*(exp(-rh*(C[i]-Cmin)) - exp(-rp*(C[i]-Cmin)))*g_dir;
 
         
      }
