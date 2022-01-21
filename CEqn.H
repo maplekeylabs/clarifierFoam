@@ -14,9 +14,6 @@ forAll(Vs, celli)
     }
 }
 
-//constrain Vs
-fvOptions.constrain(Vs);
-
 // Correct settling velocity boundary conditions
 Vs.correctBoundaryConditions();
 
