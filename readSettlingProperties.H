@@ -113,7 +113,7 @@ if (includeScrapers)
 
 // PN edit
 Info<< "  Reading settling function regions - PN did this" << endl;
-settlingProperties.subDict("settling").lookup("settlingRegions") >> settlingRegions;
+settlingProperties.subDict("settlingFunction").lookup("settlingRegions") >> settlingRegions;
 
 Info<< "  Reading turbulent Schmidt number, ScT" << endl;
 
